@@ -1,6 +1,5 @@
 # 1. Backend with Flask:
-python
-Copy code
+
 from flask import Flask, request, jsonify
 import time
 import pinecone
@@ -85,8 +84,6 @@ CMD ["python", "app.py"]
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 # 2. Dockerization (Dockerfile):
-dockerfile
-Copy code
 # Dockerfile to build the Flask app
 FROM python:3.9-slim
 
@@ -103,8 +100,7 @@ EXPOSE 5000
 
 CMD ["python", "app.py"]
 # 3. Caching with Redis (Optional):
-python
-Copy code
+
 from redis import Redis
 import pickle
 
@@ -130,8 +126,7 @@ def search():
     
     return jsonify(search_results), 200
 # 4. Rate Limiting:
-python
-Copy code
+
 @app.route('/search', methods=['POST'])
 @limiter.limit("5/minute", override_defaults=False)
 def search():
@@ -142,9 +137,13 @@ def search():
         return jsonify({"error": "Too many requests"}), 429
     # Normal processing
 # 5. Logging:
-python
-Copy code
 import logging
+logging.basicConfig(level=logging.INFO)
+
+@app.route('/search', methods=['POST'])
+def search():
+    logging.info(f"Received search request from user: {request.json.get('user_id')}")
+    # Process request and return response
 logging.basicConfig(level=logging.INFO)
 
 @app.route('/search', methods=['POST'])
